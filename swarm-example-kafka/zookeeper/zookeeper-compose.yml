@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   zoo1:
-    image: zookeeper
+    image: zookeeper:3.4
     restart: always
     hostname: zoo1
     networks:
@@ -12,7 +12,7 @@ services:
       ZOO_SERVERS: server.1=0.0.0.0:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888
 
   zoo2:
-    image: zookeeper
+    image: zookeeper:3.4
     restart: always
     hostname: zoo2
     networks:
@@ -22,7 +22,7 @@ services:
       ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=0.0.0.0:2888:3888 server.3=zoo3:2888:3888
 
   zoo3:
-    image: zookeeper
+    image: zookeeper:3.4
     restart: always
     hostname: zoo3
     networks:
@@ -30,14 +30,6 @@ services:
     environment:
       ZOO_MY_ID: 3
       ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=0.0.0.0:2888:3888
-
-# The next service is just a test container. Exec to it and then run commands 
-# such as 'echo srvr | nc zoo1 2181' to test if the zookeeper cluster is up and running
-  zoo_test:
-    image: busybox:1.28
-    command: /bin/top
-    networks:
-      - zoo_net
 
 networks:
   zoo_net:
