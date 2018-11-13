@@ -3,6 +3,10 @@ INTERFACE="eth1"
 ADVERTISE_ADDR=$(ip addr show ${INTERFACE} | grep -Po 'inet \K[\d.]+')
 docker swarm init --advertise-addr "${ADVERTISE_ADDR}"
 
+if [ ! -e "${CMD_ROOT}/tmp" ]; then
+  mkdir -p "${CMD_ROOT}/tmp"
+fi
+
 CMD_ROOT="/vagrant"
 JOIN_CMD=$(docker swarm join-token worker | grep token)
 echo "#!/bin/bash" > "${CMD_ROOT}/tmp/join-swarm.sh"
